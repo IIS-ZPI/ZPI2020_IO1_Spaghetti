@@ -1,0 +1,9 @@
+/target/
+/doc/
+/.classpath
+/.project
+.settings
+.idea/
+ZPI2020_IO1_Spaghetti.iml
+target/
+
