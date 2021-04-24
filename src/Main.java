@@ -7,6 +7,5 @@ public class Main {
         System.out.println("rola: tester\ngithub ID: kmieciakm");
         System.out.println("rola: developer\ngithub ID: EDGExD");
 
-        //komentarz trzeci EDGExD
     }
 }
