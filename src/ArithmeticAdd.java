@@ -5,4 +5,6 @@ public class ArithmeticAdd implements IArithmeticsAdd
     {
         return A+B;
     }
+
+    //komentarz drugi EDGExD
 }
