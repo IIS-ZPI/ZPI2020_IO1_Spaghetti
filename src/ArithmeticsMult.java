@@ -5,4 +5,5 @@ public class ArithmeticsMult implements IArithmeticsMult{
         return A*B;
     }//returns multiplication of two doubles
     //Comment 3
+    //hello this is comment feature
 }
