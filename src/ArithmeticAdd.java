@@ -4,6 +4,7 @@ public class ArithmeticAdd implements IArithmeticsAdd
     public double Addition(double A, double B)
     {
         return A+B;
-    }//Returns addidion of two doubles
+    } //mat_add
+    //Returns addidion of two doubles
     //komentarz drugi EDGExD
 }
