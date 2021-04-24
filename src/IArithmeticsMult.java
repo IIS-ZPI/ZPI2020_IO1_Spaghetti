@@ -1,3 +1,3 @@
-public interface IArithmeticsMult { //interface of arithmetic multiplication
+public interface IArithmeticsMult {
     double multiplication(double A, double B);
 }
