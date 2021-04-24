@@ -4,4 +4,5 @@ public class ArithmeticsDiff implements IArithmeticsDiff
     public double Difference(double A, double B) {
         return A-B;
     }
+    //comment 2
 }
