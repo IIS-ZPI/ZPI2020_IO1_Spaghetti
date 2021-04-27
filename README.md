@@ -1,1 +1,0 @@
-# ZPI2020_IO1_Spaghetti
