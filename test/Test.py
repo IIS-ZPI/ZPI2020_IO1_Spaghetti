@@ -1,6 +1,6 @@
 import pytest
 
-class tests:
-    def example_test(self):
+class Test:
+    def Test_example(self):
         print("exaple_test")
         assert 1 == 1
