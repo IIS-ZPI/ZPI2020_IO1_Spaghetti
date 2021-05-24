@@ -1,5 +1,5 @@
 import pytest
 
-def test_example(self):
+def test_example():
     print("exaple_test")
     assert 1 == 1
