@@ -1,8 +1,9 @@
-from setuptools import setup, find_packages
+from distutils.core import setup
+from setuptools import find_packages
 
 setup(
-    name="Spaghetti",
+    name="ZPI2020_IO1_Spaghetti",
     packages=find_packages(),
     version="1.0",
-    install_requires=["pytest"],
+    install_requires=["pytest"]
 )
