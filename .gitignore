@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,pycharm+all,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,visualstudiocode,pycharm+all,macos
 
@@ -283,3 +282,4 @@ Thumbs.db
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,pycharm+all,macos
+
