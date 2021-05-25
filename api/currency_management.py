@@ -2,6 +2,7 @@ from json_management import *
 from datetime import date, timedelta
 from enum import IntEnum
 from statistics import mode
+import numpy as np
 
 
 class Period(IntEnum):
@@ -12,30 +13,63 @@ class Period(IntEnum):
     HALF_YEAR = 182
     ONE_YEAR = 365
 
+class Currency:
+    def __init__(self,name, code, table):
+        self.name = name
+        self.code = code
+        self.table = table
+
 
 class CurrencyManager:
-    def __init__(self, currency_name, period):
-        self.name = currency_name
-        self.period = period
-        self.end, self.start = self.find_dates()
+    def __init__(self):
         self.dict = None
+        self.available_currencies = self.get_available_currencies()
 
-    def find_dates(self):
+    def find_dates(self, period):
         now = date.today()
         before = now
-        before -= timedelta(days=self.period)
+        before -= timedelta(days=period)
 
         return now.strftime('%Y-%m-%d'), before.strftime('%Y-%m-%d')
 
-    def get_array_from_period(self):
-        url = "http://api.nbp.pl/api/exchangerates/rates/a/" + self.name + "/" + self.start + "/" + self.end + "/?format=json"
+    def get_available_currencies(self):
+        currencies = []
+
+        for letter in ['a', 'b']:
+            txt = f'http://api.nbp.pl/api/exchangerates/tables/{letter}/?format=json'
+            temp = get_dictionary_from_json(txt)[0]
+            for v in temp['rates']:
+                name = v['currency']
+                code = v['code']
+                table = 'a'
+                currencies.append(Currency(name,code,table))
+
+        return currencies
+
+
+    def get_array_from_period(self, name, period):
+        end, start = self.find_dates(period)
+        url = "http://api.nbp.pl/api/exchangerates/rates/a/" + name + "/" + start + "/" + end + "/?format=json"
         dict = get_dictionary_from_json(url)
+        print(dict)
         self.dict = dict
         values = []
         for v in dict['rates']:
             values.append(v['mid'])
 
         return values
+
+    def count_changes_percentage(self, name1, name2, period):
+        value1 = self.get_array_from_period(name1, period)
+        value2 = self.get_array_from_period(name2, period)
+        values = np.divide(value1, value2)
+
+        changes_array=[]
+        x = range(1, len(values))
+        for i in x:
+            changes_array.append(((values[i]-values[i-1])/values[i-1])*100)
+
+        return changes_array
 
     def count_rises(self, values):
         in_rise = False
