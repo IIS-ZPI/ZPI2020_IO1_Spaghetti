@@ -6,9 +6,10 @@ root = tkinter.Tk()
 root.title('NPB')
 root.geometry('500x500')
 
+cm = CurrencyManager()
+
 def plot_statistical_analysis():
-    cm = CurrencyManager('gbp', Period.ONE_MONTH)
-    tab = cm.get_array_from_period()
+    tab = cm.get_array_from_period('gbp', Period.ONE_MONTH)
     plt.plot(tab)
     plt.show()
 
@@ -22,10 +23,10 @@ mainMenu = tkinter.Menu()
 root.config(menu=mainMenu)
 currencyMenu = tkinter.Menu(mainMenu)
 mainMenu.add_cascade(label='Select currency', menu=currencyMenu)
-currencyMenu.add_command(label='GBP')
-currencyMenu.add_command(label='USD')
-currencyMenu.add_command(label='CHF')
-currencyMenu.add_command(label='Gold')
+
+for currency in cm.available_currencies:
+    currencyMenu.add_command(label=currency.name)
+
 
 buttonPeriodWeek = tkinter.Button(root, text="One Week", command=plot_statistical_analysis)
 buttonPeriodWeek.pack()
