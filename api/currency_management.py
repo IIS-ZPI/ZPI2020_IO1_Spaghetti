@@ -2,6 +2,7 @@ from json_management import *
 from datetime import date, timedelta
 from enum import IntEnum
 from statistics import mode
+import numpy as np
 
 
 class Period(IntEnum):
@@ -14,21 +15,19 @@ class Period(IntEnum):
 
 
 class CurrencyManager:
-    def __init__(self, currency_name, period):
-        self.name = currency_name
-        self.period = period
-        self.end, self.start = self.find_dates()
+    def __init__(self):
         self.dict = None
 
-    def find_dates(self):
+    def find_dates(self, period):
         now = date.today()
         before = now
-        before -= timedelta(days=self.period)
+        before -= timedelta(days=period)
 
         return now.strftime('%Y-%m-%d'), before.strftime('%Y-%m-%d')
 
-    def get_array_from_period(self):
-        url = "http://api.nbp.pl/api/exchangerates/rates/a/" + self.name + "/" + self.start + "/" + self.end + "/?format=json"
+    def get_array_from_period(self, name, period):
+        end, start = self.find_dates(period)
+        url = "http://api.nbp.pl/api/exchangerates/rates/a/" + name + "/" + start + "/" + end + "/?format=json"
         dict = get_dictionary_from_json(url)
         self.dict = dict
         values = []
@@ -36,6 +35,18 @@ class CurrencyManager:
             values.append(v['mid'])
 
         return values
+
+    def count_changes_percentage(self, name1, name2, period):
+        value1 = self.get_array_from_period(name1, period)
+        value2 = self.get_array_from_period(name2, period)
+        values = np.divide(value1, value2)
+
+        changes_array=[]
+        x = range(1, len(values))
+        for i in x:
+            changes_array.append(((values[i]-values[i-1])/values[i-1])*100)
+
+        return changes_array
 
     def count_rises(self, values):
         in_rise = False
