@@ -8,10 +8,9 @@ root.title('NPB')
 root.geometry('500x500')
 
 
-def plot_statistical_analysis():
-    global currencyCode
+def plot_statistical_analysis(currencyCode, period):
     cm = CurrencyManager()
-    tab = cm.get_array_from_period(currencyCode, Period.ONE_WEEK)
+    tab = cm.get_array_from_period(currencyCode, period)
     plt.plot(tab)
     plt.show()
 
@@ -47,28 +46,35 @@ def create_currencies_combobox():
 
 
 currencyCode = ''
+period = ''
 
 mainMenu = tkinter.Menu()
 root.config(menu=mainMenu)
 currencyMenu = tkinter.Menu(mainMenu)
 currencyCombobox = create_currencies_combobox()
 
-buttonPeriodWeek = tkinter.Button(root, text="One Week", command=plot_statistical_analysis)
+buttonPeriodWeek = tkinter.Button(root, text="One Week", command=lambda: plot_statistical_analysis(currencyCode,
+                                                                                                   Period.ONE_WEEK))
 buttonPeriodWeek.pack()
 
-buttonPeriod2Weeks = tkinter.Button(root, text="Two Weeks", command=plot_statistical_analysis)
+buttonPeriod2Weeks = tkinter.Button(root, text="Two Weeks", command=lambda: plot_statistical_analysis(currencyCode,
+                                                                                                      Period.TWO_WEEKS))
 buttonPeriod2Weeks.pack()
 
-buttonPeriodMonth = tkinter.Button(root, text="One Month", command=plot_statistical_analysis)
+buttonPeriodMonth = tkinter.Button(root, text="One Month", command=lambda: plot_statistical_analysis(currencyCode,
+                                                                                                     Period.ONE_MONTH))
 buttonPeriodMonth.pack()
 
-buttonPeriodQuarter = tkinter.Button(root, text="One Quarter", command=plot_statistical_analysis)
+buttonPeriodQuarter = tkinter.Button(root, text="One Quarter", command=lambda: plot_statistical_analysis(currencyCode,
+                                                                                                         Period.QUARTER))
 buttonPeriodQuarter.pack()
 
-buttonPeriodHalfYear = tkinter.Button(root, text="Half a Year", command=plot_statistical_analysis)
+buttonPeriodHalfYear = tkinter.Button(root, text="Half a Year", command=lambda: plot_statistical_analysis(currencyCode,
+                                                                                                          Period.HALF_YEAR))
 buttonPeriodHalfYear.pack()
 
-buttonPeriodYear = tkinter.Button(root, text="Year", command=plot_statistical_analysis)
+buttonPeriodYear = tkinter.Button(root, text="Year", command=lambda: plot_statistical_analysis(currencyCode,
+                                                                                               Period.ONE_YEAR))
 buttonPeriodYear.pack()
 
 root.mainloop()
