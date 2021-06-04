@@ -11,6 +11,7 @@ root.geometry('500x500')
 def plot_statistical_analysis(currencyCode, period):
     cm = CurrencyManager()
     tab = cm.get_array_from_period(currencyCode, period)
+    plt.cla()
     plt.plot(tab)
     plt.show()
 
