@@ -8,12 +8,49 @@ root.title('NPB')
 root.geometry('500x500')
 
 
+def display_analysis(currencyCode, period):
+    global analysis_window
+    if analysis_window is None:
+        analysis_window = create_analysis_window()
+    else:
+        analysis_window.quit()
+
+    display_changes(analysis_window, currencyCode, period)
+    plot_statistical_analysis(currencyCode, period)
+
+
 def plot_statistical_analysis(currencyCode, period):
     cm = CurrencyManager()
     tab = cm.get_array_from_period(currencyCode, period)
     plt.cla()
     plt.plot(tab)
     plt.show()
+
+
+def create_analysis_window():
+    window = tkinter.Toplevel(root)
+    window.geometry('300x300')
+    return window
+
+
+def clear_window(window):
+    for widget in window.winfo_children():
+        widget.destroy()
+
+
+def display_changes(window, currencyCode, period):
+    clear_window(window)
+    cm = CurrencyManager()
+    currency_values = cm.get_array_from_period(currencyCode, period)
+    rises = cm.count_rises(currency_values)
+    drops = cm.count_drops(currency_values)
+    no_change = cm.count_no_change(currency_values)
+    rises_label = tkinter.Label(window, text="Rises: " + str(rises))
+    drops_label = tkinter.Label(window, text="Drops: " + str(drops))
+    no_change_label = tkinter.Label(window, text="No change: " + str(no_change))
+    rises_label.pack()
+    drops_label.pack()
+    no_change_label.pack()
 
 
 def plot_statistical_measurements():
@@ -53,29 +90,30 @@ mainMenu = tkinter.Menu()
 root.config(menu=mainMenu)
 currencyMenu = tkinter.Menu(mainMenu)
 currencyCombobox = create_currencies_combobox()
+analysis_window = None
 
-buttonPeriodWeek = tkinter.Button(root, text="One Week", command=lambda: plot_statistical_analysis(currencyCode,
-                                                                                                   Period.ONE_WEEK))
+buttonPeriodWeek = tkinter.Button(root, text="One Week",
+                                  command=lambda: display_analysis(currencyCode, Period.ONE_WEEK))
 buttonPeriodWeek.pack()
 
-buttonPeriod2Weeks = tkinter.Button(root, text="Two Weeks", command=lambda: plot_statistical_analysis(currencyCode,
-                                                                                                      Period.TWO_WEEKS))
+buttonPeriod2Weeks = tkinter.Button(root, text="Two Weeks",
+                                    command=lambda: display_analysis(currencyCode, Period.TWO_WEEKS))
 buttonPeriod2Weeks.pack()
 
-buttonPeriodMonth = tkinter.Button(root, text="One Month", command=lambda: plot_statistical_analysis(currencyCode,
-                                                                                                     Period.ONE_MONTH))
+buttonPeriodMonth = tkinter.Button(root, text="One Month",
+                                   command=lambda: display_analysis(currencyCode, Period.ONE_MONTH))
 buttonPeriodMonth.pack()
 
-buttonPeriodQuarter = tkinter.Button(root, text="One Quarter", command=lambda: plot_statistical_analysis(currencyCode,
-                                                                                                         Period.QUARTER))
+buttonPeriodQuarter = tkinter.Button(root, text="One Quarter",
+                                     command=lambda: display_analysis(currencyCode, Period.QUARTER))
 buttonPeriodQuarter.pack()
 
-buttonPeriodHalfYear = tkinter.Button(root, text="Half a Year", command=lambda: plot_statistical_analysis(currencyCode,
-                                                                                                          Period.HALF_YEAR))
+buttonPeriodHalfYear = tkinter.Button(root, text="Half a Year",
+                                      command=lambda: display_analysis(currencyCode, Period.HALF_YEAR))
 buttonPeriodHalfYear.pack()
 
-buttonPeriodYear = tkinter.Button(root, text="Year", command=lambda: plot_statistical_analysis(currencyCode,
-                                                                                               Period.ONE_YEAR))
+buttonPeriodYear = tkinter.Button(root, text="Year",
+                                  command=lambda: display_analysis(currencyCode, Period.ONE_YEAR))
 buttonPeriodYear.pack()
 
 root.mainloop()
