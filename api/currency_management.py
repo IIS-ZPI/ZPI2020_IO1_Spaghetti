@@ -1,4 +1,4 @@
-from json_management import *
+from api.json_management import *
 from datetime import date, timedelta
 from enum import IntEnum
 from statistics import mode

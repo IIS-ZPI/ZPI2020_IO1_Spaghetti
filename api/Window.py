@@ -6,17 +6,21 @@ root = tkinter.Tk()
 root.title('NPB')
 root.geometry('500x500')
 
+
 def plot_statistical_analysis():
     cm = CurrencyManager('gbp', Period.ONE_MONTH)
     tab = cm.get_array_from_period()
     plt.plot(tab)
     plt.show()
 
+
 def plot_statistical_measurements():
     print('plot_statistical_measurements')
 
+
 def plot_distribution_of_changes():
     print('plot_distribution_of_changes')
+
 
 mainMenu = tkinter.Menu()
 root.config(menu=mainMenu)
