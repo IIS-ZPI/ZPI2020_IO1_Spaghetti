@@ -1,5 +1,3 @@
-import pytest
-
 from api.currency_management import *
 
 
