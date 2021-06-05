@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 import tkinter
 from tkinter import ttk
+from tkinter import *
 from currency_management import *
 
 root = tkinter.Tk()
@@ -74,8 +75,11 @@ def plot_statistical_measurements(window, currencyCode, period):
     variation_label.pack()
 
 
-def plot_distribution_of_changes():
-    print('plot_distribution_of_changes')
+def plot_distribution_of_changes(currencyCode1, currencyCode2, period):
+    cm = CurrencyManager()
+    distribution_plot = cm.count_changes_percentage(currencyCode1, currencyCode2, period)
+    plt.plot(distribution_plot)
+    plt.show()
 
 
 def currency_changed(event):
@@ -83,9 +87,20 @@ def currency_changed(event):
     currencyCode = event.widget.get()
 
 
+def currencies_selected(event):
+    global selected_currencies
+    widget = event.widget
+    #if len(selected_currencies) == 2:
+        # deselect first
+    selected_currencies = []
+    for index in widget.curselection():
+        selected_currencies.append(widget.get(index))
+    print(selected_currencies)
+
+
 def create_currencies_combobox():
     cm = CurrencyManager()
-    label = tkinter.Label(text="Please select a currency:")
+    label = tkinter.Label(text="Please select a currency:",font=("Times New Roman", 11))
     label.pack(fill='x', padx=5, pady=5)
     selected_currency = tkinter.StringVar()
     currency_cb = ttk.Combobox(root, textvariable=selected_currency)
@@ -100,7 +115,30 @@ def create_currencies_combobox():
     return currency_cb
 
 
+def create_currencies_double_choice():
+    cm = CurrencyManager()
+    scrollbar = Scrollbar(root)
+    scrollbar.pack(side=RIGHT, fill=Y)
+    label = Label(root,
+                  text="Please select two currencies:  ",
+                  font=("Times New Roman", 11),
+                  padx=10, pady=10)
+    label.pack()
+    list = Listbox(root, selectmode="multiple")
+    list.pack(expand=YES, fill="both")
+    currencies = []
+    for c in cm.available_currencies:
+        currencies.append(c.code)
+    for each_item in range(len(currencies)):
+        currencies = sorted(currencies)
+        list.insert(END, currencies[each_item])
+    scrollbar.config(command=list.yview)
+    list.bind("<<ListboxSelect>>", currencies_selected)
+
+
+selected_currencies = []
 currencyCode = ''
+
 period = ''
 
 mainMenu = tkinter.Menu()
@@ -133,4 +171,17 @@ buttonPeriodYear = tkinter.Button(root, text="Year",
                                   command=lambda: display_analysis(currencyCode, Period.ONE_YEAR))
 buttonPeriodYear.pack()
 
+create_currencies_double_choice()
+
+buttonMonth = tkinter.Button(root, text="Month",
+                              command=lambda: plot_distribution_of_changes
+                              (selected_currencies[0], selected_currencies[1], Period.ONE_MONTH))
+buttonMonth.pack()
+
+buttonQuat= tkinter.Button(root, text="One Quarter",
+                           command=lambda: plot_distribution_of_changes
+                           (selected_currencies[0], selected_currencies[1], Period.QUARTER))
+buttonQuat.pack()
+
 root.mainloop()
+
