@@ -78,8 +78,18 @@ def plot_statistical_measurements(window, currencyCode, period):
 def plot_distribution_of_changes(currencyCode1, currencyCode2, period):
     cm = CurrencyManager()
     distribution_plot = cm.count_changes_percentage(currencyCode1, currencyCode2, period)
+    plt.cla()
     plt.plot(distribution_plot)
     plt.show()
+
+
+def distribution_btn_onclick(currencies, period):
+    global error_message
+    error_message.config(text="")
+    if len(currencies) == 2:
+        plot_distribution_of_changes(currencies[0], currencies[1], period)
+    else:
+        error_message.config(text="Please select 2 currencies !")
 
 
 def currency_changed(event):
@@ -90,8 +100,6 @@ def currency_changed(event):
 def currencies_selected(event):
     global selected_currencies
     widget = event.widget
-    #if len(selected_currencies) == 2:
-        # deselect first
     selected_currencies = []
     for index in widget.curselection():
         selected_currencies.append(widget.get(index))
@@ -100,7 +108,7 @@ def currencies_selected(event):
 
 def create_currencies_combobox():
     cm = CurrencyManager()
-    label = tkinter.Label(text="Please select a currency:",font=("Times New Roman", 11))
+    label = tkinter.Label(text="Please select a currency:", font=("Times New Roman", 11))
     label.pack(fill='x', padx=5, pady=5)
     selected_currency = tkinter.StringVar()
     currency_cb = ttk.Combobox(root, textvariable=selected_currency)
@@ -174,14 +182,14 @@ buttonPeriodYear.pack()
 create_currencies_double_choice()
 
 buttonMonth = tkinter.Button(root, text="Month",
-                              command=lambda: plot_distribution_of_changes
-                              (selected_currencies[0], selected_currencies[1], Period.ONE_MONTH))
+                             command=lambda: distribution_btn_onclick(selected_currencies, Period.ONE_MONTH))
 buttonMonth.pack()
 
-buttonQuat= tkinter.Button(root, text="One Quarter",
-                           command=lambda: plot_distribution_of_changes
-                           (selected_currencies[0], selected_currencies[1], Period.QUARTER))
+buttonQuat = tkinter.Button(root, text="One Quarter",
+                            command=lambda: distribution_btn_onclick(selected_currencies, Period.QUARTER))
 buttonQuat.pack()
 
-root.mainloop()
+error_message = tkinter.Label(root, text="")
+error_message.pack()
 
+root.mainloop()
