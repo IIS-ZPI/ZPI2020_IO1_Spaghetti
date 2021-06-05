@@ -16,6 +16,7 @@ def display_analysis(currencyCode, period):
         analysis_window.quit()
 
     display_changes(analysis_window, currencyCode, period)
+    plot_statistical_measurements(analysis_window, currencyCode, period)
     plot_statistical_analysis(currencyCode, period)
 
 
@@ -53,8 +54,24 @@ def display_changes(window, currencyCode, period):
     no_change_label.pack()
 
 
-def plot_statistical_measurements():
-    print('plot_statistical_measurements')
+def plot_statistical_measurements(window, currencyCode, period):
+    cm = CurrencyManager()
+    currency_values = cm.get_array_from_period(currencyCode, period)
+    median = count_median(currency_values)
+    median_label = tkinter.Label(window, text="Median: " + str(median))
+    median_label.pack()
+
+    mode = count_mode(currency_values)
+    mode_label = tkinter.Label(window, text="Mode: " + str(mode))
+    mode_label.pack()
+
+    standard_deviation = count_standard_deviation(currency_values)
+    standard_deviation_label = tkinter.Label(window, text="Standard Deviation: " + str(standard_deviation))
+    standard_deviation_label.pack()
+
+    variation = coefficient_of_variation(currency_values)
+    variation_label = tkinter.Label(window, text="Coefficient of variation " + str(variation))
+    variation_label.pack()
 
 
 def plot_distribution_of_changes():
