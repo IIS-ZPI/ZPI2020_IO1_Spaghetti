@@ -1,4 +1,4 @@
-from json_management import *
+from api.json_management import *
 from datetime import date, timedelta
 from enum import IntEnum
 from statistics import mode
@@ -13,8 +13,9 @@ class Period(IntEnum):
     HALF_YEAR = 182
     ONE_YEAR = 365
 
+
 class Currency:
-    def __init__(self,name, code, table):
+    def __init__(self, name, code, table):
         self.name = name
         self.code = code
         self.table = table
@@ -42,10 +43,9 @@ class CurrencyManager:
                 name = v['currency']
                 code = v['code']
                 table = 'a'
-                currencies.append(Currency(name,code,table))
+                currencies.append(Currency(name, code, table))
 
         return currencies
-
 
     def get_array_from_period(self, name, period):
         end, start = self.find_dates(period)
@@ -64,10 +64,10 @@ class CurrencyManager:
         value2 = self.get_array_from_period(name2, period)
         values = np.divide(value1, value2)
 
-        changes_array=[]
+        changes_array = []
         x = range(1, len(values))
         for i in x:
-            changes_array.append(((values[i]-values[i-1])/values[i-1])*100)
+            changes_array.append(((values[i] - values[i - 1]) / values[i - 1]) * 100)
 
         return changes_array
 

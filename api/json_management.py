@@ -7,6 +7,7 @@ def read_from_url(url):
     result = file.readline()
     return result
 
+
 def get_dictionary_from_json(url):
     json_txt = read_from_url(url)
     return json.loads(json_txt)
