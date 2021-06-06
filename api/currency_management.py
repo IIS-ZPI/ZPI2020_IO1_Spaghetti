@@ -36,7 +36,7 @@ class CurrencyManager:
     def get_available_currencies(self):
         currencies = []
 
-        for letter in ['a', 'b']:
+        for letter in ['a']:
             txt = f'http://api.nbp.pl/api/exchangerates/tables/{letter}/?format=json'
             temp = get_dictionary_from_json(txt)[0]
             for v in temp['rates']:

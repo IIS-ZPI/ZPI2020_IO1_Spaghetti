@@ -153,6 +153,8 @@ mainMenu = tkinter.Menu()
 root.config(menu=mainMenu)
 currencyMenu = tkinter.Menu(mainMenu)
 currencyCombobox = create_currencies_combobox()
+currencyCombobox.current(0)
+currencyCode = currencyCombobox.get()
 analysis_window = None
 
 buttonPeriodWeek = tkinter.Button(root, text="One Week",
