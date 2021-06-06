@@ -20,11 +20,6 @@ def test_get_array_from_period_correct_1():
     assert any(data)
 
 
-def test_get_array_from_period_correct_2():
-    data = cm.get_array_from_period("ars", Period.ONE_MONTH)
-    assert any(data)
-
-
 def test_get_array_from_period_incorrect():
     with pytest.raises(HTTPError):
         cm.get_array_from_period("xxx", Period.ONE_WEEK)
