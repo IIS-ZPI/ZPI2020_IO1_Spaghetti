@@ -1,9 +1,8 @@
 name: Build Python application
 
 on:
-  pull_request:
+  push:
     branches:
-      - develop
       - release
 
 jobs:
@@ -14,13 +13,13 @@ jobs:
       matrix:
         python-version: [3.9]
 
-
     steps:
     - uses: actions/checkout@v2
     - name: Build using Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+
 
     - name: install dependencies [pip]
       run: |
@@ -31,3 +30,13 @@ jobs:
 
     - name: run unit tests [pytest]
       run: pytest
+
+  release-on-push:
+    runs-on: ubuntu-latest
+    env:
+      github_token: ${{secrets.GITHUB_TOKEN}}
+    steps:
+      - uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: minor
+
