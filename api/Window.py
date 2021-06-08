@@ -77,9 +77,10 @@ def plot_statistical_measurements(window, currencyCode, period):
 
 def plot_distribution_of_changes(currencyCode1, currencyCode2, period):
     cm = CurrencyManager()
-    distribution_plot = cm.count_changes_percentage(currencyCode1, currencyCode2, period)
+    compartments, values = cm.count_changes_percentage(currencyCode1, currencyCode2, period)
     plt.cla()
-    plt.plot(distribution_plot)
+    #plt.plot(values)
+    plt.stairs(values, fill=True)
     plt.show()
 
 

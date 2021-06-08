@@ -67,9 +67,34 @@ class CurrencyManager:
         changes_array = []
         x = range(1, len(values))
         for i in x:
-            changes_array.append(((values[i] - values[i - 1]) / values[i - 1]) * 100)
+            changes_array.append(values[i] - values[i - 1])
 
-        return changes_array
+        #print(len(value1), len(value2))
+        minimum = min(changes_array)
+        maximum = max(changes_array)
+        difference = maximum-minimum
+        #print(minimum, maximum, difference)
+        compartments = []
+        quantity = np.zeros(10)
+        for i in range(10):
+            compartment = [minimum+(i*(difference/10)), minimum+((i+1)*(difference/10))]
+            compartments.append(compartment)
+
+        x = range(0, len(changes_array))
+        for i in x:
+            for a in range(10):
+                if compartments[a][0] <= changes_array[i] <= compartments[a][1]:
+                    quantity[a] += 1
+                    break
+
+        #print(quantity)
+        compartments_string = []
+        for i in range(10):
+            string = ""
+            string += "[ " + str(compartments[i][0]) + ", " + str(compartments[i][1]) + " ]"
+            compartments_string.append(string)
+
+        return compartments_string, quantity
 
     def count_rises(self, values):
         in_rise = False
