@@ -3,6 +3,7 @@ import tkinter
 from tkinter import ttk
 from tkinter import *
 from currency_management import *
+from numpy import *
 
 root = tkinter.Tk()
 root.title('NPB')
@@ -10,12 +11,7 @@ root.geometry('500x500')
 
 
 def display_analysis(currencyCode, period):
-    global analysis_window
-    if analysis_window is None:
-        analysis_window = create_analysis_window()
-    else:
-        analysis_window.quit()
-
+    analysis_window = create_analysis_window()
     display_changes(analysis_window, currencyCode, period)
     plot_statistical_measurements(analysis_window, currencyCode, period)
     plot_statistical_analysis(currencyCode, period)
@@ -26,6 +22,10 @@ def plot_statistical_analysis(currencyCode, period):
     tab = cm.get_array_from_period(currencyCode, period)
     plt.cla()
     plt.plot(tab)
+    plt.title("Plot for " + currencyCode)
+    plt.xlabel("Records")
+    plt.ylabel("PLN value")
+    plt.xticks(np.linspace(1, period, num=7, dtype=int, endpoint=True))
     plt.show()
 
 
@@ -79,7 +79,12 @@ def plot_distribution_of_changes(currencyCode1, currencyCode2, period):
     cm = CurrencyManager()
     compartments, values = cm.count_changes_percentage(currencyCode1, currencyCode2, period)
     plt.cla()
-    #plt.plot(values)
+    plt.title("Distribution of changes for " + currencyCode1 + " and " + currencyCode2)
+    plt.ylabel("Daily change")
+    plt.xlabel("Range")
+    labels_plot = np.array(compartments)
+    x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    plt.xticks(x, labels_plot, rotation=85, fontsize=6)
     plt.stairs(values, fill=True)
     plt.show()
 
