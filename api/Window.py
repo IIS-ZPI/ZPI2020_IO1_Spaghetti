@@ -84,8 +84,10 @@ def plot_distribution_of_changes(currencyCode1, currencyCode2, period):
     plt.xlabel("Range")
     labels_plot = np.array(compartments)
     x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    plt.xticks(x, labels_plot, rotation=85, fontsize=6)
+    plt.xticks(x, labels_plot, rotation=80, fontsize=8)
     plt.stairs(values, fill=True)
+    plt.gcf().subplots_adjust(bottom=0.15)
+    plt.tight_layout()
     plt.show()
 
 

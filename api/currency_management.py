@@ -91,7 +91,7 @@ class CurrencyManager:
         compartments_string = []
         for i in range(10):
             string = ""
-            string += "[ " + str(compartments[i][0]) + ", " + str(compartments[i][1]) + " ]"
+            string += "[ " + str(round_5_two_decimals([compartments[i][0]])) + ", " + str(round_5_two_decimals([compartments[i][1]])) + " ]"
             compartments_string.append(string)
 
         return compartments_string, quantity
@@ -189,3 +189,11 @@ def round_2_two_decimals(values):
         val.append(round(v, 2))
 
     return val
+
+def round_5_two_decimals(values):
+    val = []
+    for v in values:
+        val.append(round(v, 5))
+
+    return val
+
